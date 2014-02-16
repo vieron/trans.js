@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Trans.js by vieron</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Trans.js</h1>
+        <p>Cross-browser CSS transitions</p>
+
+        <p class="view"><a href="https://github.com/vieron/trans.js">View the Project on GitHub <small>vieron/trans.js</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/vieron/trans.js/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/vieron/trans.js/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/vieron/trans.js">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="transjs" class="anchor" href="#transjs"><span class="octicon octicon-link"></span></a>trans.js</h1>
+
+<p>Cross-browser CSS transitions</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Install with bower:</p>
+
+<pre><code>$ bower install trans.js
+</code></pre>
+
+<h2>
+<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
+
+<ul>
+<li>
+<p>It handles well transitions between elements with the following properties:</p>
+
+<ul>
+<li>display: none;  &lt;&gt;  display: block;</li>
+<li>height: 0;      &lt;&gt;  height: auto;</li>
+<li>width: 0;       &lt;&gt;  width: auto;</li>
+<li>opacity: 0;     &lt;&gt;  opacity: 1;</li>
+</ul>
+</li>
+<li><p>It handles events not fired in transitions between equal values...</p></li>
+<li>Callbacks for transitionEnd events, by property and at the end of all transitions</li>
+</ul><h2>
+<a name="options" class="anchor" href="#options"><span class="octicon octicon-link"></span></a>Options</h2>
+
+<pre><code>{
+    end: function(propKey, instance) {}, // fired at the end of transition of each property
+    endAll: function(propKey, instance) {} // fired once at the end of all transitions
+}
+</code></pre>
+
+<h2>
+<a name="api" class="anchor" href="#api"><span class="octicon octicon-link"></span></a>API</h2>
+
+<h3>
+<a name="addtransclassclassname--callbackfn--options" class="anchor" href="#addtransclassclassname--callbackfn--options"><span class="octicon octicon-link"></span></a>.addTransClass(className [, callbackFn | options])</h3>
+
+<h3>
+<a name="removetransclassclassname--callbackfn--options" class="anchor" href="#removetransclassclassname--callbackfn--options"><span class="octicon octicon-link"></span></a>.removeTransClass(className [, callbackFn | options])</h3>
+
+<p>Add or remove a class on a element and transitionEnd callbacks if passed.</p>
+
+<ul>
+<li>className: (string) The class or group of classes separated by commas to add or remove.</li>
+<li>callabckFn: (function) Callback function fired at the end of all transitions.</li>
+<li>options: (object) Object width options.</li>
+</ul><h2>
+<a name="events" class="anchor" href="#events"><span class="octicon octicon-link"></span></a>Events</h2>
+
+<p>You can subscribe to the following events:</p>
+
+<h3>
+<a name="transend" class="anchor" href="#transend"><span class="octicon octicon-link"></span></a>trans:end</h3>
+
+<pre><code>$('#foo').on('trans:end', function(propKey, transInstance) {
+    console.log('end of ', propKey, ' transition');
+});
+</code></pre>
+
+<h3>
+<a name="transendpropname" class="anchor" href="#transendpropname"><span class="octicon octicon-link"></span></a>trans<img class="emoji" title=":end:" alt=":end:" src="https://github.global.ssl.fastly.net/images/icons/emoji/end.png" height="20" width="20" align="absmiddle">propName</h3>
+
+<pre><code>$('#foo').on('trans:end:background-color', function(propKey, transInstance) {
+    console.log('end of background color transition');
+});
+</code></pre>
+
+<h3>
+<a name="transendall" class="anchor" href="#transendall"><span class="octicon octicon-link"></span></a>trans:endAll</h3>
+
+<pre><code>$('#foo').on('trans:endAll', function(transInstance) {
+    console.log('end of all transitions');
+});
+</code></pre>
+
+<h2>
+<a name="known-problems" class="anchor" href="#known-problems"><span class="octicon octicon-link"></span></a>Known problems</h2>
+
+<ul>
+<li>Do not transition shorthand properties like background, use expanded properties instead: background-color, background-position...</li>
+</ul><h2>
+<a name="browser-support" class="anchor" href="#browser-support"><span class="octicon octicon-link"></span></a>Browser support</h2>
+
+<ul>
+<li>Safari</li>
+<li>Chrome</li>
+<li>Opera</li>
+<li>Firefox</li>
+</ul><h2>
+<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO</h2>
+
+<ul>
+<li>trans.js uses display block instead of the display property value of the element (fix in next version)</li>
+<li>un-vendor prefix property keys used in transProps and in <code>trans:end:propKey</code> events.</li>
+</ul><h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>MIT</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/vieron">vieron</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>

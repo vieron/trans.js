@@ -15,13 +15,15 @@
 ## Features
 
 * It handles well transitions between elements with the following properties:
-    * display: none;  <>  display: block;
-    * height: 0;      <>  height: auto;
-    * width: 0;       <>  width: auto;
-    * opacity: 0;     <>  opacity: 1;
+    * `display: none;`  <=>  `display: block;`
+    * `height: 0;`      <=>  `height: auto;`
+    * `width: 0;`       <=>  `width: auto;`
+    * `opacity: 0;`     <=>  `opacity: 1;`
 
 * It handles events not fired in transitions between equal values...
-* Callbacks for transitionEnd events, by property and at the end of all transitions
+* TransitionEnd callbacks and events, by property or at the end of all transitions
+* Fallback to addClass/removeClass when transitions aren't supported. All transitionEnd
+events and callbacks binded will be fired.
 
 
 ## Options
@@ -38,7 +40,7 @@
 ### .addTransClass(className [, callbackFn | options])
 ### .removeTransClass(className [, callbackFn | options])
 
-Add or remove a class on a element and transitionEnd callbacks if passed.
+Add or remove a class on a element and fires transitionEnd callbacks.
 
 * className: (string) The class or group of classes separated by commas to add or remove.
 * callabckFn: (function) Callback function fired at the end of all transitions.
@@ -84,11 +86,13 @@ $('#foo').on('trans:endAll', function(transInstance) {
 * Chrome
 * Opera
 * Firefox
+* IE9 +
 
 ## TODO
 
 * trans.js uses display block instead of the display property value of the element (fix in next version)
 * un-vendor prefix property keys used in transProps and in `trans:end:propKey` events.
+* API to enqueue transitions
 
 ## License
 

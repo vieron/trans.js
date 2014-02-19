@@ -1,4 +1,23 @@
-;(function($, _, Modernizr) {
+(function(root, factory) {
+
+  // Set up Backbone appropriately for the environment. Start with AMD.
+  if (typeof define === 'function' && define.amd) {
+    define(['underscore', 'jquery', 'modernizr'], factory);
+
+  // Next for Node.js or CommonJS. jQuery may not be needed as a module.
+  } else if (typeof exports !== 'undefined') {
+    var _ = require('underscore');
+    var $ = require('underscore');
+    var Modernizr = require('Modernizr');
+
+    factory(_, $, Modernizr);
+
+  // Finally, as a browser global.
+  } else {
+    root.Trans = factory(root._, (root.$ || root.jQuery), root.Modernizr);
+  }
+
+}(this, function(_, $, Modernizr) {
 
     'use strict';
 
@@ -363,4 +382,4 @@
 
     return Trans;
 
-})(jQuery, _, Modernizr);
+}));

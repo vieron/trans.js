@@ -1,0 +1,27 @@
+{
+  "name": "trans.js",
+  "version": "0.0.0",
+  "description": "Cross-browser CSS transitions",
+  "main": "trans.js",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "~1.17.1",
+    "mocha-phantomjs": "~3.3.2",
+    "phantomjs": "~1.9.7-1"
+  },
+  "scripts": {
+    "test": "mocha-phantomjs -t 3000 tests.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/vieron/trans.js.git"
+  },
+  "keywords": [
+    "css",
+    "transitions",
+    "transitionend"
+  ],
+  "author": "vieron",
+  "license": "MIT",
+  "readmeFilename": "README.md"
+}

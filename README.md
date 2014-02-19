@@ -1,7 +1,9 @@
-
 # trans.js
 
   Cross-browser CSS transitions
+
+  [![Build Status](https://travis-ci.org/vieron/trans.js.png?branch=master)](https://travis-ci.org/vieron/trans.js)
+
 
 ## Installation
 

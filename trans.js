@@ -3,7 +3,9 @@
     'use strict';
 
     var w = window;
-    var d = document;
+    var doc = document;
+
+    var hasCSSTransitions = Modernizr.csstransitions;
 
     var transitionProperty = Modernizr.prefixed('transition');
 
@@ -170,19 +172,22 @@
             var style = w.getComputedStyle(this.el, null);
             this.transitionValue = style.getPropertyValue(transitionProperty);
 
+            if (!hasCSSTransitions) {
+                this.transitionValue = splitCommasOutside(this.$el.css('transition'));
+                return;
+            }
+
             // firefox doesn't return data in shorthand CSS props
             if (!this.transitionValue || !this.transitionValue.length) {
                 // TODO: move this to a test method fired after init
                 var prefix = this.transPrefix;
                 var properties = this.$el.css(prefix + 'TransitionProperty').split(', ');
-                var durations = this.$el.css(prefix + 'TransitionDuration').split(', ');
-                var delays = this.$el.css(prefix + 'TransitionDelay').split(', ');
-                var timings = splitCommasOutside(this.$el.css(prefix + 'TransitionTimingFunction'));
 
                 var transitions = [];
                 for (var i = properties.length - 1; i >= 0; i--) {
-                    transitions.push(properties[i] + ' ' + durations[i] + ' ' + timings[i] + ' ' + (delays[i] || '0s'));
+                    transitions.push(properties[i]);
                 }
+                // whitespace after comma is required
                 this.transitionValue = transitions.join(', ');
             }
 
@@ -259,19 +264,32 @@
             this.transition('remove');
         },
 
+        _transitionFallback: function() {
+            $.each(this.transProps, function(propKey, val) {
+                this._end(propKey);
+            }.bind(this));
+
+            this.endAll();
+        },
+
         transition: function(method) {
             this.stop();
 
             this.transProps = this.getTransProps(method);
 
-            this.$el.on(transitionEndEvent + '.trans', {
-                endAll: _.after(_.size(this.transProps), _.bind(this.endAll, this))
-            }, _.bind(this.end, this));
+            if (hasCSSTransitions) {
+                this.$el.on(transitionEndEvent + '.trans', {
+                    endAll: _.after(_.size(this.transProps), _.bind(this.endAll, this))
+                }, _.bind(this.end, this));
+
+                this.manageAutoProps('from');
+            }
 
             // transition start
             this.transitionActive = true;
-            this.manageAutoProps('from');
             Trans.methods[method].call(this.$el, this.transClass);
+            // fire end events when no csstransitions support
+            !hasCSSTransitions && this._transitionFallback();
         },
 
         stop: function() {
@@ -281,6 +299,13 @@
             this.repaint();
             this.$el.removeClass('js-notransition');
             this.endAll();
+        },
+
+        _end: function(propKey) {
+            var args = [propKey, this];
+            this.$el.trigger('trans:end', args);
+            this.$el.trigger('trans:end:' + propKey, args);
+            this.opts.end && this.opts.end.apply(this.$el, args);
         },
 
         // e.originalEvent[type || propertyName || elapsedTime || eventPhase]
@@ -295,10 +320,7 @@
                 return;
             }
 
-            var args = [propKey, this];
-            this.$el.trigger('trans:end', args);
-            this.$el.trigger('trans:end:' + propKey, args);
-            this.opts.end && this.opts.end.apply(this.$el, args);
+            this._end(propKey);
             this.transitionActive && e.data.endAll.call(this, e);
         },
 
@@ -308,14 +330,13 @@
 
             /* Not called in end method because Firefox stops transition if
              * display property is changed during animation */
-            this.manageAutoProps('to');
+            hasCSSTransitions && this.manageAutoProps('to');
 
             this.$el.trigger('trans:endAll', [this]);
             this.opts.endAll && this.opts.endAll.call(this.$el, this);
 
             this.$el.off('.trans');
             delete this.transProps;
-            delete this.completedTransitions;
         },
 
         destroy: function() {
@@ -342,4 +363,4 @@
 
     return Trans;
 
-})(this, jQuery, _, Modernizr);
+})(jQuery, _, Modernizr);

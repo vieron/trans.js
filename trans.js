@@ -7,7 +7,7 @@
   // Next for Node.js or CommonJS. jQuery may not be needed as a module.
   } else if (typeof exports !== 'undefined') {
     var _ = require('underscore');
-    var $ = require('underscore');
+    var $ = require('jquery');
     var Modernizr = require('Modernizr');
 
     factory(_, $, Modernizr);
@@ -140,44 +140,52 @@
 
         manageAutoProps: function(point, props) {
             props || (props = this.transProps);
-            var i, css = {};
+            var css = {};
 
             if (!_.intersection(_.keys(Trans.autoProps), _.keys(props)).length) {
                 return;
             }
 
-            var _display = function(prop) {
-                var i = props[prop][point];
-                i === '0px' || (i = '*');
-                var val = Trans.maps.display.dimension[point][i];
-                css['display'] = val;
-            };
-
-            var _dimension = function(prop) {
+            var _setProp = function(prop, subprop) {
                 var fromVal, toVal, i, val, size, z;
-                fromVal = props[prop]['from'];
-                toVal = props[prop]['to'];
+                fromVal = props[(subprop || prop)]['from'];
+                toVal = props[(subprop || prop)]['to'];
+                i = props[(subprop || prop)][point];
 
-                if ((fromVal == 'auto' || toVal == 'auto') ||
-                    (fromVal == '0px' || toVal == '0px')) {
-                    i = props[prop][point];
-                    size = i !== '0px' ? fromVal : toVal;
-                    z = i === '0px' ? '0px' : '*';
-                    val = Trans.maps.dimension[point][z];
-                    if (val === '*') { val = size; }
-                    css[prop] = val;
+                switch (prop) {
+                    case "display":
+                        if (fromVal !== '0px' && toVal !== '0px') { return; }
+                        i === '0px' || (i = '*');
+                        val = Trans.maps.display.dimension[point][i];
+                        css['display'] = val;
+                    break;
+
+                    case "width":
+                    case "height":
+                        if ((fromVal == 'auto' || toVal == 'auto') ||
+                            (fromVal == '0px' || toVal == '0px')) {
+                            size = i !== '0px' ? fromVal : toVal;
+                            z = i === '0px' ? '0px' : '*';
+                            val = Trans.maps.dimension[point][z];
+                            if (val === '*') { val = size; }
+                            css[prop] = val;
+                        }
+                    break;
                 }
+
             };
 
             if (props['opacity']) {
-                i = props['opacity'][point];
-                css['display'] = Trans.maps.display.opacity[point][i];
+                var j = props['opacity'][point];
+                // console.log(i, point, '---', Trans.maps.display.opacity[point][i]);
+                css['display'] = Trans.maps.display.opacity[point][j];
             }
+
 
             _.each(['width', 'height'], function(prop) {
                 if (props[prop]) {
-                    _display(prop);
-                    _dimension(prop);
+                    _setProp('display', prop);
+                    // _setProp(prop);
                 }
             });
 

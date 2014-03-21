@@ -1,0 +1,220 @@
+<!doctype>
+<html lang="en">
+    <head>
+        <title>Trans.js</title>
+
+        <style>
+
+
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                color: #333;
+                font-size: 16px;
+            }
+
+            h2 {
+                margin-bottom: 14px;
+            }
+
+            button {
+                padding: 6px;
+                display: inline-block;
+                margin-bottom: 20px;
+            }
+
+            .Demo {
+                padding: 30px;
+                margin-bottom: 20px;
+                border-top: 1px solid #CCC;
+                border-bottom: 1px solid #CCC
+                }
+
+            .box {
+                width: 100px;
+                height: 100px;
+                background-color: #EEE;
+                -moz-transform: translatex(0);
+                -ms-transform: translatex(0);
+                -o-transform: translatex(0);
+                -webkit-transform: translatex(0);
+                transform: translatex(0)
+                }
+
+            .Demo--1 .box {
+                -moz-transition: width 0.6s ease-out, height 0.6s, background-color 0.8s;
+                -o-transition: width 0.6s ease-out, height 0.6s, background-color 0.8s;
+                -webkit-transition: width 0.6s ease-out, height 0.6s, background-color 0.8s;
+                transition: width 0.6s ease-out, height 0.6s, background-color 0.8s
+                }
+
+            .Demo--1 .box.js-active {
+                width: 200px;
+                height: 200px;
+                background-color: #333
+                }
+
+            .Demo--2 .box {
+                -moz-transition: width 0.6s ease-out, height 0.6s, background-color 0.8s, -moz-transform 0.6s ease-out;
+                -o-transition: width 0.6s ease-out, height 0.6s, background-color 0.8s, -o-transform 0.6s ease-out;
+                -webkit-transition: width 0.6s ease-out, height 0.6s, background-color 0.8s, -webkit-transform 0.6s ease-out;
+                transition: width 0.6s ease-out, height 0.6s, background-color 0.8s, transform 0.6s ease-out
+                }
+
+            .Demo--2 .box.js-active {
+                width: 200px;
+                height: 200px;
+                background-color: #333;
+                -moz-transform: translatex(300px);
+                -ms-transform: translatex(300px);
+                -o-transform: translatex(300px);
+                -webkit-transform: translatex(300px);
+                transform: translatex(300px)
+                }
+
+            .Demo--3 .box {
+                display: block;
+                -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+                filter: alpha(opacity=100);
+                opacity: 1;
+                -moz-transition: width 0.6s ease-out, height 0.6s, background-color 0.8s, opacity 0.6s ease-out;
+                -o-transition: width 0.6s ease-out, height 0.6s, background-color 0.8s, opacity 0.6s ease-out;
+                -webkit-transition: width 0.6s ease-out, height 0.6s, background-color 0.8s, opacity 0.6s ease-out;
+                transition: width 0.6s ease-out, height 0.6s, background-color 0.8s, opacity 0.6s ease-out
+                }
+
+            .Demo--3 .box.js-active {
+                width: 200px;
+                height: 200px;
+                background-color: #333;
+                -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+                filter: alpha(opacity=0);
+                opacity: 0;
+                display: none
+                }
+
+            .Demo--4 .box {
+                display: block;
+                height: 100px;
+                -moz-transition: width 0.6s ease-out, height 0.6s, background-color 0.8s;
+                -o-transition: width 0.6s ease-out, height 0.6s, background-color 0.8s;
+                -webkit-transition: width 0.6s ease-out, height 0.6s, background-color 0.8s;
+                transition: width 0.6s ease-out, height 0.6s, background-color 0.8s
+                }
+
+            .Demo--4 .box.js-active {
+                width: 200px;
+                height: 0;
+                background-color: #333;
+                display: none
+                }
+
+            .Demo--5 {
+                transform-style: preserve-3d
+                }
+
+            .Demo--5 .box {
+                -moz-transform: rotatey(0deg);
+                -ms-transform: rotatey(0deg);
+                -o-transform: rotatey(0deg);
+                -webkit-transform: rotatey(0deg);
+                transform: rotatey(0deg);
+                -moz-transition: -moz-transform 0.6s ease-out, background-color 0.8s;
+                -o-transition: -o-transform 0.6s ease-out, background-color 0.8s;
+                -webkit-transition: -webkit-transform 0.6s ease-out, background-color 0.8s;
+                transition: transform 0.6s ease-out, background-color 0.8s
+                }
+
+            .Demo--5 .box.js-active {
+                -moz-transform: rotatey(180deg);
+                -ms-transform: rotatey(180deg);
+                -o-transform: rotatey(180deg);
+                -webkit-transform: rotatey(180deg);
+                transform: rotatey(180deg);
+                background-color: #333
+                }
+
+
+        </style>
+    </head>
+    <body>
+
+
+
+    <div class="Demo Demo--1">
+        <h2>Regular attributes</h2>
+        <button>Toggle</button>
+
+        <div class="box"></div>
+    </div>
+
+
+
+    <div class="Demo Demo--2">
+        <h2>Transform</h2>
+        <button>Toggle</button>
+
+        <div class="box"></div>
+    </div>
+
+
+
+    <div class="Demo Demo--3">
+        <h2>Opacity + display none/block</h2>
+        <button>Toggle</button>
+
+        <div class="box"></div>
+    </div>
+
+
+    <div class="Demo Demo--4">
+        <h2>Height + display none/block</h2>
+        <button>Toggle</button>
+
+        <div class="box"></div>
+    </div>
+
+
+    <div class="Demo Demo--5">
+        <h2>3D transformations none/block</h2>
+        <button>Toggle</button>
+
+        <div class="box"></div>
+    </div>
+
+
+
+
+
+
+    <script src="../bower_components/modernizr/modernizr.js"></script>
+    <script src="../bower_components/underscore/underscore.js"></script>
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+
+    <script src="../trans.js"></script>
+
+    <script>
+        $(function() {
+
+            $('.Demo').each(function() {
+
+                var $box = $(this).find('.box');
+                $(this).on('click', 'button', function(e) {
+                    if ($box.hasClass('js-active')) {
+                        $box.removeTransClass('js-active');
+                    } else {
+                        $box.addTransClass('js-active');
+                    }
+                });
+
+            });
+
+        });
+    </script>
+
+    </body>
+</html>

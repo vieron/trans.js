@@ -191,5 +191,42 @@ describe('trans.js height + display block/none', function() {
     });
 
     checkAllTransEndEvents.call(this, 3);
+});
 
+
+describe('trans.js utilities', function() {
+    'use strict';
+
+    beforeEach(function() {
+        this.$box = $(box('regular-trans'));
+        $('#fixture').append(this.$box);
+    });
+
+    afterEach(function() {
+        this.$box.remove();
+    });
+
+    it('should fire callback when using `transEnd` method', function(done) {
+        this.timeout(3000);
+
+        this.$box.transEnd(function() {
+            done();
+        });
+
+        _.defer(function() {
+            this.$box.addClass('js-active');
+        }.bind(this));
+    });
+
+    it('should fire callback when using `transEnd` jQuery event type', function(done) {
+        this.timeout(3000);
+
+        this.$box.one('transEnd', function() {
+            done();
+        });
+
+        _.defer(function() {
+            this.$box.addClass('js-active');
+        }.bind(this));
+    });
 });

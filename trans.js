@@ -388,6 +388,27 @@
         return t.$el;
     };
 
+    $.fn.transEnd = function(callback) {
+        var cb = _.bind(callback, this);
+        this.one(transitionEndEvent, function(e) {
+            var propKey = e.originalEvent.propertyName;
+            cb(propKey);
+        });
+        return this;
+    };
+
+    $.event.special.transEnd = {
+        setup: function() {
+            $(this).on(transitionEndEvent + '.transEt', function() {
+                $(this).triggerHandler('transEnd');
+            });
+        },
+
+        teardown: function() {
+            $(this).off(transitionEndEvent + '.transEt');
+        }
+    };
+
     return Trans;
 
 }));

@@ -37,8 +37,9 @@ events and callbacks binded will be fired.
 
 ## API
 
-### .addTransClass(className [, callbackFn | options])
-### .removeTransClass(className [, callbackFn | options])
+### `.addTransClass(className [, callbackFn || options])`
+
+### `.removeTransClass(className [, callbackFn || options])`
 
 Add or remove a class on a element and fires transitionEnd callbacks.
 
@@ -51,29 +52,69 @@ Add or remove a class on a element and fires transitionEnd callbacks.
 
 You can subscribe to the following events:
 
-### trans:end
+### `trans:end`
 
 ```
 $('#foo').on('trans:end', function(propKey, transInstance) {
     console.log('end of ', propKey, ' transition');
 });
+
+$('#foo').addTransClass('js-active');
 ```
 
-### trans:end:[propName]
+### `trans:end:[propName]`
 
 ```
 $('#foo').on('trans:end:background-color', function(propKey, transInstance) {
     console.log('end of background color transition');
 });
+
+$('#foo').addTransClass('js-active');
 ```
 
-### trans:endAll
+### `trans:endAll`
 
 ```
 $('#foo').on('trans:endAll', function(transInstance) {
     console.log('end of all transitions');
 });
+
+$('#foo').addTransClass('js-active');
 ```
+
+
+## Utilities
+
+Note that this utilities do not handle transitions between not transitionable
+attributes listed above.
+
+Do not provide any kind of fallback.
+
+### `.transEnd(callbackFn)`
+
+```
+$('#foo').transEnd(function(prop) {
+    console.log('transEnd method ' + prop);
+});
+
+$('#foo').addClass('js-active');
+```
+
+
+### `transEnd` jQuery event type
+
+```
+$('#foo').on('transEnd', function(e) {
+    console.log('transEnd method', e.originalEvent.propertyName);
+});
+
+$('#foo').addClass('js-active');
+
+// remember unbind the event
+$('#foo').off('transEnd');
+
+```
+
 
 
 ## Known problems
@@ -93,6 +134,7 @@ $('#foo').on('trans:endAll', function(transInstance) {
 * trans.js uses display block instead of the display property value of the element (fix in next version)
 * un-vendor prefix property keys used in transProps and in `trans:end:propKey` events.
 * API to enqueue transitions
+* implement promises with $.Deferred
 
 ## License
 

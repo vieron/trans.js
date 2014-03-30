@@ -90,7 +90,7 @@ attributes listed above.
 
 Do not provide any kind of fallback.
 
-### `.transEnd(callbackFn)`
+### `.transEnd(callbackFn [, context])`
 
 ```
 $('#foo').transEnd(function(prop) {
@@ -113,6 +113,18 @@ $('#foo').addClass('js-active');
 // remember unbind the event
 $('#foo').off('transEnd');
 
+```
+
+### `.noTrans(callbackFn [, context])`
+
+Perform changes in CSS attributes that have CSS transitions applied without transitioning them.
+
+```
+$('#foo').noTrans(function(prop) {
+    // all changes here will be done without transitions
+    $('#foo').css('height', 200);
+    $('#foo').css('width', 500);
+});
 ```
 
 

@@ -399,8 +399,8 @@
         return t.$el;
     };
 
-    $.fn.transEnd = function(callback) {
-        var cb = _.bind(callback, this);
+    $.fn.transEnd = function(callback, ctx) {
+        var cb = _.bind(callback, ctx || this);
         this.one(transitionEndEvent, function(e) {
             var propKey = e.originalEvent.propertyName;
             cb(propKey);

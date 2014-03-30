@@ -222,6 +222,14 @@
     </div>
 
 
+    <div class="Demo Demo--2 Demo--2-3">
+        <h2>noTrans method</h2>
+        <button>Toggle</button>
+
+        <div class="box"></div>
+    </div>
+
+
 
 
 
@@ -278,6 +286,17 @@
                     });
                     $box2_2.addClass('js-active');
                 }
+            });
+
+
+            var $box2_3 = $('.Demo--2-3').find('.box');
+            $('.Demo--2-3').on('click', 'button', function(e) {
+                $box2_3.noTrans(function() {
+                    $box2_3.css({
+                        width: _.random(100, 600),
+                        height: _.random(100, 600)
+                    });
+                });
             });
 
         });

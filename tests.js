@@ -128,7 +128,6 @@ describe('trans.js width + display block/none', function() {
 
     it('should set display property to none and width to 0px', function(done) {
         this.$box.on('trans:endAll', function(e, ins) {
-            console.log('trans_enddAll')
             expect(ins.$el.css('display')).to.equal('none');
             expect(ins.$el.css('width')).to.equal('0px');
             done();
@@ -169,7 +168,6 @@ describe('trans.js height + display block/none', function() {
 
     it('should set display property to none and height to 0px', function(done) {
         this.$box.on('trans:endAll', function(e, ins) {
-            console.log('trans_enddAll')
             expect(ins.$el.css('display')).to.equal('none');
             expect(ins.$el.css('height')).to.equal('0px');
             done();
@@ -228,5 +226,21 @@ describe('trans.js utilities', function() {
         _.defer(function() {
             this.$box.addClass('js-active');
         }.bind(this));
+    });
+
+    it('should change attributes without transitions using `noTrans` method', function() {
+        var random_w = _.random(200, 500);
+        var random_h = _.random(200, 500);
+
+        // trigger repaint
+        this.$box.width();
+
+        this.$box.noTrans(function() {
+            this.$box.css('width', random_w);
+            this.$box.css('height', random_h);
+        }, this);
+
+        expect(this.$box.width()).to.equal(random_w);
+        expect(this.$box.height()).to.equal(random_h);
     });
 });

@@ -124,6 +124,14 @@
         'remove': $.fn.removeClass
     };
 
+    Trans.noTrans = function($el, callback, ctx) {
+        $el.addClass('js-notransition');
+        callback && callback.call(ctx || $el);
+        $el.width(); // repaint
+        $el.removeClass('js-notransition');
+    };
+
+
     _.extend(Trans.prototype, {
         init: function() {
             this.transClass = '';
@@ -221,16 +229,20 @@
             this.transitionValue = splitCommasOutside(this.transitionValue);
         },
 
+        noTrans: function(callback, ctx) {
+            Trans.noTrans(this.$el, callback, ctx || this);
+        },
+
         getTransProps: function(method) {
-            var fProp, tProp;
+            var fProp, tProp, fromProps, toProps;
             var res = {};
 
             this.getTransitionValue();
 
-            this.$el.addClass('js-notransition');
-            var fromProps = this.getFromProps(method);
-            var toProps = this.getToProps(method === 'add' ? 'remove' : 'add');
-            this.$el.removeClass('js-notransition');
+            this.noTrans(function() {
+                fromProps = this.getFromProps(method);
+                toProps = this.getToProps(method === 'add' ? 'remove' : 'add');
+            });
 
             for (var propKey in fromProps) {
                 fProp = fromProps[propKey];
@@ -322,9 +334,8 @@
         stop: function() {
             if (!this.transitionActive) { return; }
 
-            this.$el.addClass('js-notransition');
-            this.repaint();
-            this.$el.removeClass('js-notransition');
+            this.noTrans(); // add js-notransition class and trigger repaint
+
             this.endAll();
         },
 
@@ -394,6 +405,11 @@
             var propKey = e.originalEvent.propertyName;
             cb(propKey);
         });
+        return this;
+    };
+
+    $.fn.noTrans = function(callback, ctx) {
+        Trans.noTrans(this, callback, ctx);
         return this;
     };
 

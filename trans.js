@@ -24,8 +24,6 @@
     var w = window;
     var doc = document;
 
-    var hasCSSTransitions = Modernizr.csstransitions;
-
     var transitionProperty = Modernizr.prefixed('transition');
 
     var transitionEndEvent = {
@@ -51,10 +49,11 @@
     };
 
 
-    function Trans($el, opts) {
+    function Trans($el, opts, fallbackTest) {
         var ins = $el.data('trans');
         var _this = ins || this;
         var optsIsFn = $.isFunction(opts);
+        _.isBoolean(opts) && (fallbackTest = opts);
 
         _this.$el = $el;
         _this.el = $el[0];
@@ -63,12 +62,16 @@
         !optsIsFn && (_this.opts = opts || {});
         optsIsFn && (_this.opts.endAll = opts);
 
+        _this.doFallback = _.isUndefined(fallbackTest) ? !Trans.fallbackTest : !fallbackTest;
+
         if (!ins) {
             _this.$el.data('trans', _this.init());
         } else {
             return ins;
         }
     }
+
+    Trans.fallbackTest = Modernizr.csstransitions;
 
     Trans.css = '.js-notransition {' +
                 '  -webkit-transition: none !important;' +
@@ -207,7 +210,7 @@
             var style = w.getComputedStyle(this.el, null);
             this.transitionValue = style.getPropertyValue(transitionProperty);
 
-            if (!hasCSSTransitions) {
+            if (this.doFallback) {
                 this.transitionValue = splitCommasOutside(this.$el.css('transition'));
                 return;
             }
@@ -316,7 +319,7 @@
 
             this.transProps = this.getTransProps(method);
 
-            if (hasCSSTransitions) {
+            if (! this.doFallback) {
                 this.$el.on(transitionEndEvent + '.trans', {
                     endAll: _.after(_.size(this.transProps), _.bind(this.endAll, this))
                 }, _.bind(this.end, this));
@@ -326,9 +329,19 @@
 
             // transition start
             this.transitionActive = true;
-            Trans.methods[method].call(this.$el, this.transClass);
+            this.performClassChange(method);
             // fire end events when no csstransitions support
-            !hasCSSTransitions && this._transitionFallback();
+            this.doFallback && this._transitionFallback();
+        },
+
+        performClassChange: function(method) {
+            if (this.doFallback) {
+                Trans.noTrans(this.$el, function() {
+                    Trans.methods[method].call(this.$el, this.transClass);
+                }, this);
+            } else {
+                Trans.methods[method].call(this.$el, this.transClass);
+            }
         },
 
         stop: function() {
@@ -368,7 +381,7 @@
 
             /* Not called in end method because Firefox stops transition if
              * display property is changed during animation */
-            hasCSSTransitions && this.manageAutoProps('to');
+            ! this.doFallback && this.manageAutoProps('to');
 
             this.$el.trigger('trans:endAll', [this]);
             this.opts.endAll && this.opts.endAll.call(this.$el, this);
@@ -387,24 +400,31 @@
 
 
     // jquerify
-    $.fn.addTransClass = function(transClass, opts) {
-        var t = new Trans(this.eq(0), opts);
+    $.fn.addTransClass = function(transClass, opts, fallbackTest) {
+        var t = new Trans(this.eq(0), opts, fallbackTest);
         t.addTransClass(transClass);
         return t.$el;
     };
 
-    $.fn.removeTransClass = function(transClass, opts) {
-        var t = new Trans(this.eq(0), opts);
+    $.fn.removeTransClass = function(transClass, opts, fallbackTest) {
+        var t = new Trans(this.eq(0), opts, fallbackTest);
         t.removeTransClass(transClass);
         return t.$el;
     };
 
-    $.fn.transEnd = function(callback, ctx) {
+    $.fn.transEnd = function(callback, ctx, fallbackTest) {
+        _.isBoolean(ctx) && (fallbackTest = ctx);
+        _.isUndefined(fallbackTest) && (fallbackTest = Trans.fallbackTest);
         var cb = _.bind(callback, ctx || this);
-        this.one(transitionEndEvent, function(e) {
-            var propKey = e.originalEvent.propertyName;
-            cb(propKey);
-        });
+
+        if (fallbackTest) {
+            this.one(transitionEndEvent, function(e) {
+                var propKey = e.originalEvent.propertyName;
+                cb(propKey);
+            });
+        } else {
+            cb();
+        }
         return this;
     };
 
@@ -415,13 +435,17 @@
 
     $.event.special.transEnd = {
         setup: function() {
-            $(this).on(transitionEndEvent + '.transEt', function() {
+            if (Trans.fallbackTest) {
+                $(this).on(transitionEndEvent + '.transEt', function() {
+                    $(this).triggerHandler('transEnd');
+                });
+            } else {
                 $(this).triggerHandler('transEnd');
-            });
+            }
         },
 
         teardown: function() {
-            $(this).off(transitionEndEvent + '.transEt');
+            Trans.fallbackTest && $(this).off(transitionEndEvent + '.transEt');
         }
     };
 

@@ -1,0 +1,158 @@
+.box-regular-trans {
+    width: 200px;
+    height: 200px;
+    background-color: red;
+
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -o-transform: translateX(0);
+    transform: translateX(0);
+}
+
+.box-regular-trans.transition {
+    -webkit-transition: background-color 0.6s, width 0.6s, height 0.6s 0.6s, -webkit-transform 0.6s 1.2s;
+    -moz-transition: background-color 0.6s, width 0.6s, height 0.6s 0.6s, -moz-transform 0.6s 1.2s;
+    -o-transition: background-color 0.6s, width 0.6s, height 0.6s 0.6s, -o-transform 0.6s 1.2s;
+    transition: background-color 0.6s, width 0.6s, height 0.6s 0.6s, transform 0.6s 1.2s;
+}
+
+.box-regular-trans.js-active {
+    width: 300px;
+    height: 400px;
+    background-color: blue;
+
+    -webkit-transform: translateX(200px);
+    -moz-transform: translateX(200px);
+    -o-transform: translateX(200px);
+    transform: translateX(200px);
+}
+
+
+.box-opacity-display-trans {
+    width: 200px;
+    height: 200px;
+    background-color: red;
+    display: block;
+    opacity: 1;
+}
+
+.box-opacity-display-trans.transition {
+    -webkit-transition: opacity 0.7s, background-color 0.3s, width 0.3s, height 0.3s 0.3s;
+    -moz-transition: opacity 0.7s, background-color 0.3s, width 0.3s, height 0.3s 0.3s;
+    -o-transition: opacity 0.7s, background-color 0.3s, width 0.3s, height 0.3s 0.3s;
+    transition: opacity 0.7s, background-color 0.3s, width 0.3s, height 0.3s 0.3s;
+}
+
+.box-opacity-display-trans.js-active {
+    width: 300px;
+    height: 400px;
+    background-color: blue;
+    display: none;
+    opacity: 0;
+}
+
+
+.box-height-auto-trans {
+    width: 200px;
+    height: auto;
+    background-color: red;
+    overflow: hidden;
+}
+
+.box-height-auto-trans.transition {
+    -webkit-transition: height 0.3s 0.3s;
+    -moz-transition: height 0.3s 0.3s;
+    -o-transition: height 0.3s 0.3s;
+    transition: height 0.3s 0.3s;
+}
+
+.box-height-auto-trans.js-active {
+    height: 0;
+}
+
+
+.box-width-auto-trans {
+    height: 200px;
+    width: auto;
+    background-color: red;
+    overflow: hidden;
+}
+
+.box-width-auto-trans.transition {
+    -webkit-transition: width 0.3s 0.3s;
+    -moz-transition: width 0.3s 0.3s;
+    -o-transition: width 0.3s 0.3s;
+    transition: width 0.3s 0.3s;
+}
+
+.box-width-auto-trans.js-active {
+    width: 0;
+}
+
+
+.box-width-display-trans {
+    width: 200px;
+    height: 400px;
+    background-color: red;
+    display: block;
+}
+
+.box-width-display-trans.transition {
+    -webkit-transition: background-color 0.3s, width 0.6s, height 0.3s 0.3s;
+    -moz-transition: background-color 0.3s, width 0.6s, height 0.3s 0.3s;
+    -o-transition: background-color 0.3s, width 0.6s, height 0.3s 0.3s;
+    transition: background-color 0.3s, width 0.6s, height 0.3s 0.3s;
+}
+
+.box-width-display-trans.js-active {
+    width: 0px;
+    height: 450px;
+    background-color: blue;
+    display: none;
+}
+
+
+
+.box-height-auto-display-trans {
+    width: 200px;
+    height: auto;
+    background-color: red;
+    display: block;
+    overflow: hidden;
+}
+
+.box-height-auto-display-trans.transition {
+    -webkit-transition: background-color 0.3s, width 0.6s, height 0.6s;
+    -moz-transition: background-color 0.3s, width 0.6s, height 0.6s;
+    -o-transition: background-color 0.3s, width 0.6s, height 0.6s;
+    transition: background-color 0.3s, width 0.6s, height 0.6s;
+}
+
+.box-height-auto-display-trans.js-active {
+    width: 300px;
+    height: 0px;
+    background-color: blue;
+    display: none;
+}
+
+
+.box-width-auto-display-trans {
+    width: auto;
+    height: 200px;
+    background-color: red;
+    display: block;
+    overflow: hidden;
+}
+
+.box-width-auto-display-trans.transition {
+    -webkit-transition: background-color 0.3s, width 0.3s;
+    -moz-transition: background-color 0.3s, width 0.3s;
+    -o-transition: background-color 0.3s, width 0.3s;
+    transition: background-color 0.3s, width 0.3s;
+}
+
+.box-width-auto-display-trans.js-active {
+    width: 0px;
+    background-color: blue;
+    display: none;
+}

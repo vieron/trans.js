@@ -3,14 +3,23 @@
   "version": "0.0.4",
   "description": "Cross-browser CSS transitions",
   "main": "trans.js",
-  "dependencies": {},
+  "dependencies": {
+    "underscore": "^1.7.0"
+  },
   "devDependencies": {
-    "mocha": "~1.17.1",
-    "mocha-phantomjs": "~3.3.2",
-    "phantomjs": "~1.9.7-1"
+    "chai": "^1.10.0",
+    "karma": "^0.12.31",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-firefox-launcher": "^0.1.4",
+    "karma-mocha": "^0.1.10",
+    "karma-mocha-reporter": "^0.3.1",
+    "karma-safari-launcher": "^0.1.1",
+    "karma-sauce-launcher": "^0.2.10",
+    "mocha": "^2.1.0"
   },
   "scripts": {
-    "test": "mocha-phantomjs -t 3000 tests.html"
+    "test": "./node_modules/karma/bin/karma start karma.conf-ci.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +30,7 @@
     "transitions",
     "transitionend"
   ],
-  "author": "vieron",
+  "author": "vieron <javiersanchezmarin@gmail.com>",
   "license": "MIT",
   "readmeFilename": "README.md"
 }

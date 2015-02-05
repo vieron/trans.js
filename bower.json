@@ -1,34 +1,33 @@
 {
   "name": "trans.js",
   "main": "trans.js",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "homepage": "https://github.com/vieron/trans.js",
   "authors": [
     "vieron <javiersanchezmarin@gmail.com>"
   ],
-  "description": "Cross-browser CSS transitions",
+  "description": "Trans.js is a small JavaScript library that allows you manage CSS transitions adding or removing CSS classes previously defined by you in your stylesheets.",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
   "keywords": [
     "css",
     "transitions",
-    "events",
-    "transitionend",
-    "javascript"
+    "transitionEnd"
   ],
   "license": "MIT",
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
-    "test",
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.1.0",
-    "modernizr": "~2.7.1",
-    "underscore": "~1.6.0"
+    "underscore": "~1.7.0"
   },
   "devDependencies": {
-    "mocha": "~1.17.1",
-    "chai": "~1.9.0"
+    "classlist": "eligrey/classList.js"
   }
 }

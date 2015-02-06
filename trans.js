@@ -188,6 +188,8 @@
             return;
         }
 
+        var finished = false;
+
         // read CSS transition value
         opts.useTransClass && u.addClass(el, 'transition').repaint(el);
         var transition = _getTransitionValue(el);
@@ -196,6 +198,7 @@
 
         // all transitions finished callback
         var endAllCallbackWrapper = function() {
+            finished = true;
             opts.useTransClass && u.removeClass(el, 'transition');
             hook('after', el, transition, opts);
             opts.endAll && opts.endAll(el);
@@ -214,6 +217,10 @@
         performClassChange(el, opts);
         opts.useTransClass && u.addClass(el, 'transition').repaint(el);
         hook('afterPerform', el, transition, opts);
+
+        setTimeout(function() {
+            if (!finished) { endAllCallbackWrapper(); }
+        }, transition.duration);
     }
 
     function hook(name, el, transition, opts) {

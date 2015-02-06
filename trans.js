@@ -203,7 +203,7 @@
         }
         var endAllCallbackHandler = u.fireAfter(transition.length, endAllCallbackWrapper);
         var endCallbackWrapper = function(e) {
-            e && e.stopImmediatePropagation(); // prevent breaks using nested transitions
+            e && e.stopPropagation(); // prevent breaks using nested transitions
             opts.end && opts.end(el, e.propertyName);
             endAllCallbackHandler();
         }

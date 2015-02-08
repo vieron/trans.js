@@ -110,7 +110,6 @@
         transitionsEnabled: transitionsFeatureTest(),
         end: u.noop,
         endAll: u.noop,
-        useTransClass: true,
         // TODO: not fancy
         __cache: {}
     };
@@ -191,18 +190,18 @@
         var finished = false;
 
         // read CSS transition value
-        opts.useTransClass && u.addClass(el, 'transition').repaint(el);
+        u.addClass(el, 'transition').repaint(el);
         var transition = _getTransitionValue(el);
-        opts.useTransClass && u.removeClass(el, 'transition').repaint(el);
+        u.removeClass(el, 'transition').repaint(el);
         if (!transition.length) { return; }
 
         // all transitions finished callback
         var endAllCallbackWrapper = function() {
             finished = true;
-            opts.useTransClass && u.removeClass(el, 'transition');
+            el.removeEventListener(transitionEndEvent, endCallbackWrapper);
+            u.removeClass(el, 'transition');
             hook('after', el, transition, opts);
             opts.endAll && opts.endAll(el);
-            el.removeEventListener(transitionEndEvent, endCallbackWrapper);
         }
         var endAllCallbackHandler = u.fireAfter(transition.length, endAllCallbackWrapper);
         var endCallbackWrapper = function(e) {
@@ -215,7 +214,7 @@
 
         hook('before', el, transition, opts);
         performClassChange(el, opts);
-        opts.useTransClass && u.addClass(el, 'transition').repaint(el);
+        u.addClass(el, 'transition').repaint(el);
         hook('afterPerform', el, transition, opts);
 
         setTimeout(function() {
